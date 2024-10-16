@@ -1,0 +1,153 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'poppins', sans-serif;
+}
+
+.content {
+  min-height: 70vh;
+}
+
+.content h1 {
+  text-align: center;
+  font-weight: 300;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding-left: 1%;
+  padding-right: 1%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #ccc;
+}
+
+nav ul {
+  flex: 1;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline-block;
+  list-style: none;
+  margin: 10px 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+}
+
+.footer {
+  text-align: center;
+  padding: 5px 0;
+  background-color: #ccc;
+}
+
+/*form*/
+
+#blogForm {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#blogForm label {
+  display: block;
+  font-weight: bold;
+}
+
+#blogForm input,
+#blogForm textarea {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+#blogForm button {
+  padding: 10px 20px;
+  background-color: #000;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  color: #fff;
+  margin: 10px 0px;
+}
+
+.error p {
+  color: red;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.success p {
+  color: green;
+  text-align: center;
+  padding: 5px 0;
+}
+
+#manageTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#manageTable th,
+#manageTable td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#manageTable th {
+  background-color: #f2f2f2;
+}
+
+#manageTable img {
+  width: 50px;
+  height: 50px;
+}
+
+/*edit blog form*/
+#editBlogForm {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#editBlogForm label {
+  display: block;
+  font-weight: bold;
+}
+
+#editBlogForm input,
+#editBlogForm textarea {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+#editBlogForm button {
+  padding: 10px 20px;
+  background-color: #000;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  color: #fff;
+  margin: 10px 0px;
+}
+
+.editImage img{
+  width: 100px;
+  height: 100px;
+}
