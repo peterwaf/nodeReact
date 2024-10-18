@@ -11,7 +11,7 @@ app.use(cors());
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-
+//get all blogs
 app.get('/', async (req, res) => {
     try {
         const blogsSnapShot = await getDocs(collection(db, "blogs"));
@@ -31,6 +31,9 @@ app.get('/', async (req, res) => {
         })
     }
 })
+
+//add blog
+
 app.post("/add", upload.single('image'), async (req, res) => {
     const { title, content } = req.body;
     const image = req.file;
@@ -59,6 +62,9 @@ app.post("/add", upload.single('image'), async (req, res) => {
     }
 
 })
+
+//delete
+
 app.delete("/delete/", async (req, res) => {
     const id = req.query.id;
     if (!id) {
@@ -78,7 +84,7 @@ app.delete("/delete/", async (req, res) => {
     }
     
 })
-
+//edit
 app.patch("/edit/", upload.single('image'), async (req, res) => {
     const id = req.query.id;
     const { title, content } = req.body;
@@ -118,7 +124,7 @@ app.patch("/edit/", upload.single('image'), async (req, res) => {
         })
     }
 })
-
+//load
 app.get("/loadblog/",async (req,res)=>{
     const id = req.query.id;
     try {
