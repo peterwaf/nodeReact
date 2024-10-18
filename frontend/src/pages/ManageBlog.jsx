@@ -11,7 +11,9 @@ function Home() {
     const [previewImage, setPreviewImage] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [editButtonClicked, setEditButtonClicked] = useState(false);
     const navigate = useNavigate();
+
     useEffect(() => {
         const getData = async () => {
             try {
@@ -56,6 +58,7 @@ function Home() {
     }
 
     const handleBlogChange = (e) => {
+
         if (e.target.name === "image") {
             setBlogToEdit({
                 ...blogToEdit,
@@ -89,10 +92,13 @@ function Home() {
                 },
             });
             if (res.status === 200) {
-                // setBlogItems(blogItems.map((blogItem) => blogItem.id === editID ? res.data.blog : blogItem));
+                setBlogItems(blogItems.map((blogItem) => blogItem.id === blogToEdit.id ? res.data.blog : blogItem));
                 setBlogToEdit({ title: "", image: "", content: "" });
                 setSuccess(res.data.message);
                 setPreviewImage("");
+                navigate("/manage");
+                setSuccess("");
+                setEditButtonClicked(false);
                 navigate("/manage");
 
             }
@@ -106,7 +112,7 @@ function Home() {
             <Header />
             <div className="content">
                 <h1>Manage</h1>
-                <div className="edit-blog-form">
+                <div id="edit-form-container" className={`${editButtonClicked ? "edit-form-container-active" : "edit-form-container-inactive"}`}>
                     <form onSubmit={editBlogSubmit} id="editBlogForm">
                         <label htmlFor="title">Title</label>
                         <input type="text" onChange={handleBlogChange} value={blogToEdit.title ? blogToEdit.title : ""} name="title" id="title" />
@@ -123,7 +129,8 @@ function Home() {
                         <div className="success">
                             <p>{success ? success : ""}</p>
                         </div>
-                        <button>Update</button>
+                        <button className="update">Update</button>
+                        <button className="cancel" onClick={() => setEditButtonClicked(false)}>Cancel</button>
                     </form>
                 </div>
                 <table id="manageTable">
@@ -143,7 +150,8 @@ function Home() {
                                 <td><img src={blogItem.image || blogItem.featuredImage} alt="" /></td>
                                 <td>
                                     <button onClick={() => {
-                                        loadBlog(blogItem.id)
+                                        loadBlog(blogItem.id);
+                                        setEditButtonClicked(true);
                                     }}>Edit</button>
                                     <button onClick={() => deleteBlog(blogItem.id)}>Delete</button>
                                 </td>

@@ -5,7 +5,7 @@ body {
 }
 
 .content {
-  min-height: 70vh;
+  height: 100vh;
 }
 
 .content h1 {
@@ -27,7 +27,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #ccc;
+  background-color: #7992A5;
 }
 
 nav ul {
@@ -44,13 +44,16 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   font-weight: bold;
-  color: #000;
+  color: #EBF0F3;
 }
 
 .footer {
   text-align: center;
   padding: 5px 0;
-  background-color: #ccc;
+  background-color: #7992A5;
+}
+.footer p {
+  color: #EBF0F3;
 }
 
 /*form*/
@@ -74,7 +77,7 @@ nav ul li a {
   box-sizing: border-box;
 }
 
-#blogForm button {
+#blogForm button.update {
   padding: 10px 20px;
   background-color: #000;
   border: none;
@@ -122,6 +125,7 @@ nav ul li a {
   width: 50%;
   margin: 0 auto;
   padding: 20px;
+  border: 1px solid #000;
 }
 
 #editBlogForm label {
@@ -137,7 +141,7 @@ nav ul li a {
   box-sizing: border-box;
 }
 
-#editBlogForm button {
+/* #editBlogForm button {
   padding: 10px 20px;
   background-color: #000;
   border: none;
@@ -145,9 +149,54 @@ nav ul li a {
   width: 100%;
   color: #fff;
   margin: 10px 0px;
-}
+} */
 
 .editImage img{
   width: 100px;
   height: 100px;
+}
+.content ul {
+  padding: 0;
+}
+.content ul li {
+  list-style: none;
+  background-color:#EBF0F3;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.content ul li img {
+  width: 165px;
+  height: auto;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.read-more {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+#editBlogForm{
+  position:absolute;
+  top: 0;
+  margin: auto;
+  background: #fff;
+}
+
+
+.edit-form-container-active{
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  top: 1%;
+}
+.cancel{ background-color: red;}
+
+.edit-form-container-inactive{
+  display: none;
 }

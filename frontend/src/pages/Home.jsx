@@ -27,7 +27,8 @@ function Home() {
             return <li key={blogItem.id}>
               <h3>{blogItem.title}</h3>
               <img src={blogItem.image || blogItem.featuredImage } alt="" />
-              <p>{blogItem.content || blogItem.body}</p>
+              <p>{blogItem.content.substring(0, 450) || blogItem.body.substring(0, 10)}</p>
+              <a className="read-more" href="#">Read More...</a>
             </li>
           })}
         </ul>

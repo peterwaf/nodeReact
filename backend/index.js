@@ -102,9 +102,14 @@ app.patch("/edit/", upload.single('image'), async (req, res) => {
                 title: title,
                 content: content
             })
-        }        
+        }
+        const blogSnapShot = await getDoc(blogRef);       
         res.status(200).json({
-            message: "Blog updated successfully"
+            message: "Blog updated successfully",
+            blog: {
+                ...blogSnapShot.data(),
+                id: blogSnapShot.id
+            }
         })        
     } catch (error) {
         console.log(error.message);
