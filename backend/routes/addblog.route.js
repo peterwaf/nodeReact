@@ -2,11 +2,11 @@ import express from "express";
 import multer from "multer";
 import { addDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, bucket } from "../config.js"
+import { db, bucket } from "../config.js";
 
 const router = express.Router();
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 router.post("/add", upload.single('image'), async (req, res) => {
     const { title, content } = req.body;

@@ -4,9 +4,6 @@ body {
   font-family: 'poppins', sans-serif;
 }
 
-.content {
-  height: 100vh;
-}
 
 .content h1 {
   text-align: center;
@@ -200,3 +197,14 @@ nav ul li a {
 .edit-form-container-inactive{
   display: none;
 }
+
+button.add-blog{
+  padding: 10px 20px;
+  background-color: #000;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  color: #fff;
+  margin: 10px 0px;
+}
+.

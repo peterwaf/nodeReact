@@ -81,7 +81,7 @@ function AddBlog() {
                     <div className="success">
                         <p>{success ? success : ""}</p>
                     </div>
-                    <button>Add</button>
+                    <button className="add-blog">Add</button>
                 </form>
             </div>
             <Footer />

@@ -122,7 +122,7 @@ function Home() {
                         </div>
                         <input type="file" onChange={handleBlogChange} name="image" id="image" />
                         <label htmlFor="content">Content</label>
-                        <textarea name="content" onChange={handleBlogChange} value={blogToEdit.content ? blogToEdit.content : ""} id="content" cols="30" rows="10"></textarea>
+                        <textarea name="content" rows="20" cols="30" onChange={handleBlogChange} value={blogToEdit.content ? blogToEdit.content : ""} ></textarea>
                         <div className="error">
                             <p>{error ? error : ""}</p>
                         </div>
