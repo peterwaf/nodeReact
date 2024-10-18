@@ -4,11 +4,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, bucket } from "../config.js"
 
-const route = express.Router();
+const router = express.Router();
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-route.post("/add", upload.single('image'), async (req, res) => {
+router.post("/add", upload.single('image'), async (req, res) => {
     const { title, content } = req.body;
     const image = req.file;
     if (!image || !title || !content) {
@@ -37,4 +37,4 @@ route.post("/add", upload.single('image'), async (req, res) => {
 
 })
 
-export default route
+export default router

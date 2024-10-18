@@ -17,7 +17,7 @@ app.use("/delete", deleteBlog);
 //edit blog
 app.use("/edit", editBlog);
 //load
-app.loadBlog("/loadblog", loadBlog);
+app.use("/loadblog", loadBlog);
 app.listen(3000, () => {
     console.log("Server started on port 3000");
 })

@@ -2,9 +2,9 @@ import express from "express";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../config.js";
 
-const route = express.Router();
+const router = express.Router();
 
-route.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const blogsSnapShot = await getDocs(collection(db, "blogs"));
         const blogs = [];
@@ -24,4 +24,4 @@ route.get('/', async (req, res) => {
     }
 })
 
-export default route
+export default router

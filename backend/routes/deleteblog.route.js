@@ -2,9 +2,9 @@ import express from "express";
 import { deleteDoc, doc, collection } from "firebase/firestore";
 import { db } from "../config.js";
 
-const route = express.Router();
+const router = express.Router();
 
-route.delete("/delete/", async (req, res) => {
+router.delete("/delete/", async (req, res) => {
     const id = req.query.id;
     if (!id) {
         return res.status(400).json({ message: 'ID is required' });
@@ -24,4 +24,4 @@ route.delete("/delete/", async (req, res) => {
 
 })
 
-export default route
+export default router

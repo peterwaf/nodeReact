@@ -3,12 +3,11 @@ import multer from "multer";
 import { collection,doc, updateDoc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, bucket } from "../config.js"
-import { db } from "../config.js";
 
-const route = express.Router();
+const router = express.Router();
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
-route.patch("/edit/", upload.single('image'), async (req, res) => {
+router.patch("/edit/", upload.single('image'), async (req, res) => {
     const id = req.query.id;
     const { title, content } = req.body;
     const image = req.file;
@@ -48,4 +47,4 @@ route.patch("/edit/", upload.single('image'), async (req, res) => {
     }
 })
 
-export default route
+export default router
