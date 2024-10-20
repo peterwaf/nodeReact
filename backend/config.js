@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 import dotenv from "dotenv";
-dotenv.config();
+// Load environment variables from .env file or replace with your own values
+dotenv.config(); //remove if using your api keys 
 const firebaseConfig = {
   apiKey: process.env.FIREBSE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -16,4 +18,5 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const bucket = getStorage(firebaseApp);
-export { db, bucket }
+const auth = getAuth(firebaseApp);
+export { db, bucket,auth }
