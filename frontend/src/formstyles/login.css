@@ -53,7 +53,10 @@
   width: 50%;
 }
 
+.errorsHolder {
+  color: red;
 
+}
 
 /* Change styles for cancel button and login button on extra small screens */
 @media screen and (max-width: 300px) {
