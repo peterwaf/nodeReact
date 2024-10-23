@@ -4,7 +4,10 @@ import Footer from "../components/partials/Footer"
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-
+// import ReactQuill from 'react-quill for text editor
+import ReactQuill from 'react-quill'
+// Import Quill styles
+import 'react-quill/dist/quill.snow.css'
 function ManageBlog() {
     const [blogItems, setBlogItems] = useState([]);
     const [blogToEdit, setBlogToEdit] = useState({ id: "", title: "", image: "", content: "" });
@@ -57,6 +60,7 @@ function ManageBlog() {
         }
     }
 
+
     const handleBlogChange = (e) => {
 
         if (e.target.name === "image") {
@@ -106,6 +110,14 @@ function ManageBlog() {
             setError(error.message);
         }
     }
+ // Separate handler for ReactQuill content
+ const handleContentChange = (someValue) => {
+    setBlogToEdit(prevBlogToEdit => {
+        return {...prevBlogToEdit,content:someValue,}
+    })
+ }
+
+console.log(blogToEdit);
 
     return (
         <div className="container">
@@ -122,7 +134,7 @@ function ManageBlog() {
                         </div>
                         <input type="file" onChange={handleBlogChange} name="image" id="image" />
                         <label htmlFor="content">Content</label>
-                        <textarea name="content" rows="20" cols="30" onChange={handleBlogChange} value={blogToEdit.content ? blogToEdit.content : ""} ></textarea>
+                        <ReactQuill name="content"  onChange={handleContentChange} value={blogToEdit.content ? blogToEdit.content : ""} />
                         <div className="error">
                             <p>{error ? error : ""}</p>
                         </div>

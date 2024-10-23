@@ -18,7 +18,6 @@ function Header() {
       console.log(error.message);
     }
   }
-  console.log(user);
   
   return (
     <nav>

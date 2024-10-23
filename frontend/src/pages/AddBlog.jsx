@@ -1,8 +1,12 @@
 import React from 'react'
 import Header from "../components/partials/Header"
 import Footer from "../components/partials/Footer"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import axios from 'axios'
+// import ReactQuill from 'react-quill for text editor
+import ReactQuill from 'react-quill'
+// Import Quill styles
+import 'react-quill/dist/quill.snow.css'
 function AddBlog() {
     const [formData, setFormData] = useState({
         title: "",
@@ -61,6 +65,15 @@ function AddBlog() {
             }
         }
     };
+
+     // Separate handler for ReactQuill content
+     const handleContentChange = (value) => {
+        setFormData({
+            ...formData,
+            content: value,
+        });
+    };
+    
     return (
         <div className="container">
              <Header/>
@@ -74,7 +87,7 @@ function AddBlog() {
                     <input type="file" onChange={handleChange} accept="image/*" name="image" />
                     <br />
                     <label htmlFor="content"> Content </label>
-                    <textarea name="content" onChange={handleChange} value={formData.content} id="" rows="30" cols="50"></textarea>
+                    <ReactQuill theme="snow" name="content" onChange={handleContentChange} value={formData.content} id="" />
                     <div className="error">
                         <p>{error ? error : ""}</p>
                     </div>
