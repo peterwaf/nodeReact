@@ -22,7 +22,7 @@ function Home() {
     <div className="container">
       <Header/>
       <div className="content">
-        <h1>Welcome to our blog</h1>
+        <h1>The Everyday Chronicles</h1>
         <ul>
           {blogItems.map((blogItem) => {
             return <li key={blogItem.id}>
