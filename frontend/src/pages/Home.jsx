@@ -3,12 +3,8 @@ import Header from "../components/partials/Header"
 import Footer from "../components/partials/Footer"
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { useContext } from "react"
-import userContext from "../Contexts/userContext"
 function Home() {
   const [blogItems, setBlogItems] = useState([]);
-  const  user = useContext(userContext);
- 
   useEffect(() => {
     const getData = async () => {
       try {
@@ -21,10 +17,10 @@ function Home() {
     }
     getData();
   }, []);
-  console.log(user);
+
   return (
     <div className="container">
-      <Header />
+      <Header/>
       <div className="content">
         <h1>Welcome to our blog</h1>
         <ul>

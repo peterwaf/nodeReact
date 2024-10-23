@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 
-function Home() {
+function ManageBlog() {
     const [blogItems, setBlogItems] = useState([]);
     const [blogToEdit, setBlogToEdit] = useState({ id: "", title: "", image: "", content: "" });
     const [previewImage, setPreviewImage] = useState("");
@@ -109,7 +109,7 @@ function Home() {
 
     return (
         <div className="container">
-            <Header />
+            <Header/>
             <div className="content">
                 <h1>Manage</h1>
                 <div id="edit-form-container" className={`${editButtonClicked ? "edit-form-container-active" : "edit-form-container-inactive"}`}>
@@ -165,4 +165,4 @@ function Home() {
     )
 }
 
-export default Home
+export default ManageBlog

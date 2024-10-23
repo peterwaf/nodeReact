@@ -212,3 +212,14 @@ button.add-blog{
   color: #fff;
   margin: 10px 0px;
 }
+.admin-link{
+  text-decoration: none;
+  font-weight: bold;
+  background-color: #EBF0F3;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  color: #000;
+  padding: 10px 20px;
+
+}

@@ -63,7 +63,7 @@ function AddBlog() {
     };
     return (
         <div className="container">
-            <Header />
+             <Header/>
             <div className="content">
                 <h1>Add Blog</h1>
                 <form onSubmit={handleSubmit} id="blogForm">
