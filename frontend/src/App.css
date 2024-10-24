@@ -223,3 +223,27 @@ button.add-blog{
   padding: 10px 20px;
 
 }
+/*blog page*/
+.inner-content{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
+.blog-content-image{
+  width: 80%;
+  height: auto;
+  text-align: center;
+}
+
+/* // responsive */
+@media (max-width: 768px) {
+  #blogForm {
+    width: 100%;
+  }
+  #editBlogForm {
+    width: 100%;
+  }
+}

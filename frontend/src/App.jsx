@@ -6,9 +6,11 @@ import AddBlog from "./pages/AddBlog";
 import ManageBlog from "./pages/ManageBlog";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+// import userContext from "./Contexts/userContext";
 import userContext from "./Contexts/userContext";
 import About from "./pages/About";
 import { useState,useEffect } from "react";
+import ReadMore from "./pages/ReadMore";
 function App() {
   const [user,SetUser] = useState(null);
 
@@ -34,6 +36,7 @@ function App() {
 
   return (
     <>
+    {/* user contect provider to share user state between pages */}
       <userContext.Provider value={{user,resetUser,setUpUser}} >
       <BrowserRouter >
         <Routes>
@@ -43,6 +46,7 @@ function App() {
             <Route path={"/manage"} element={<ManageBlog />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/readmore" element={<ReadMore />} />
         </Routes>
       </BrowserRouter>
       </userContext.Provider>

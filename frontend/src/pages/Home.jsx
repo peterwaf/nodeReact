@@ -4,6 +4,7 @@ import Footer from "../components/partials/Footer"
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import parse from "html-react-parser"
+import { Link } from "react-router-dom"
 
 function Home() {
   const [blogItems, setBlogItems] = useState([]);
@@ -43,7 +44,7 @@ function Home() {
               {/*remove the html render*/}
               {getPreview(blogItem.content)}
               <br />
-              <a className="read-more" href="#">Read More...</a>
+              <Link className="read-more" to={`/readmore?title=${blogItem.title}&id=${blogItem.id}`}>Read More...</Link>
             </li>
           })}
         </ul>

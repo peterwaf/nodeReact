@@ -8,9 +8,12 @@ import loadBlog from "./routes/loadblog.route.js";
 import signUp from "./routes/signup.route.js";
 import login from "./routes/login.route.js";
 import logout from "./routes/logout.route.js";
+import readmore from "./routes/readmore.route.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
+//set default port to 3000 or any other port you prefer
+const PORT = process.env.PORT || 3000;
 //add blog
 app.use("/", addBlog);
 //get all blogs
@@ -27,6 +30,9 @@ app.use("/", signUp);
 app.use("/", login);
 //logout
 app.use("/", logout);
-app.listen(3000, () => {
-    console.log("Server started on port 3000");
+//readmore
+app.use("/", readmore);
+
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
 })
