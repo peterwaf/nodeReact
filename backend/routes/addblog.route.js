@@ -22,7 +22,8 @@ router.post("/add", upload.single('image'), async (req, res) => {
         const blogPost = await addDoc(collection(db, "blogs"), {
             title: title,
             image: imageUrl,
-            content: content
+            content: content,
+            createdOn: new Date().toISOString()
         })
 
         res.status(200).json({
