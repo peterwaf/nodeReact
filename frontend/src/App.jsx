@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 // import userContext from "./Contexts/userContext";
 import userContext from "./Contexts/userContext";
 import About from "./pages/About";
+import Terms from "./pages/Terms";
 import { useState,useEffect } from "react";
 import ReadMore from "./pages/ReadMore";
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path={"/manage"} element={<ManageBlog />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/terms-and-conditions" element={<Terms />} />
             <Route path="/readmore" element={<ReadMore />} />
         </Routes>
       </BrowserRouter>

@@ -32,6 +32,7 @@ function ReadMore() {
       <Header/>
       <div className="inner-content">
         <h1>{blogItem?.title}</h1>
+        <p>Posted on : {blogItem.createdOn?.toString().substring(0, 10)}</p>
         <img className="blog-content-image" src={blogItem?.image} alt="" />
         {/* Parse the content with html-react-parse
         to render it as HTML */}

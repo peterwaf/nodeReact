@@ -8,6 +8,8 @@ import { Link } from "react-router-dom"
 
 function Home() {
   const [blogItems, setBlogItems] = useState([]);
+  console.log(blogItems);
+  
   useEffect(() => {
     const getData = async () => {
       try {
@@ -38,6 +40,7 @@ function Home() {
           {blogItems.map((blogItem) => {
             return <li key={blogItem.id}>
               <h3>{blogItem.title}</h3>
+              <p className="posted-on"> Posted on : {blogItem.createdOn?.toString().substring(0, 10)}</p>
               <img src={blogItem.image || blogItem.featuredImage } alt="" />
                {/*add the html render*/}
               {/* {parse(blogItem.content)} */}

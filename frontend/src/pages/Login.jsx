@@ -80,7 +80,7 @@ function Login() {
 
                         <label htmlFor="psw"><b>Password</b></label>
                         <input type="password" onChange={handleChange} placeholder="Enter Password" name="password" />
-                        <p>By creating an account you agree to our <a href="#" style={{ color: "dodgerblue" }}>Terms & Privacy</a>.</p>
+                        <p>By creating an account you agree to our <a href="/terms-and-conditions" style={{ color: "dodgerblue" }}>Terms & Privacy</a>.</p>
 
                         <div className="errorsHolder">
                             {errors.map((error, index) => (

@@ -96,7 +96,7 @@ function SignUp() {
                             ))}
                         </div>
                         <span className="success">{success}</span>
-                        <p>By creating an account you agree to our <a href="#" style={{ color: "dodgerblue" }}>Terms & Privacy</a>.</p>
+                        <p>By creating an account you agree to our <a href="/terms-and-conditions" style={{ color: "dodgerblue" }}>Terms & Privacy</a>.</p>
 
                         <div className="clearfix">
                             <button type="button" className="cancelbtn">Cancel</button>
