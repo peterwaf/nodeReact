@@ -20,7 +20,7 @@ function ManageBlog() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/");
+                const res = await axios.get("https://api-e42kc5svjq-uc.a.run.app/");
                 setBlogItems(res.data.blogs);
             } catch (error) {
                 console.log(error.message);
@@ -33,7 +33,7 @@ function ManageBlog() {
         const confirm = window.confirm("Are you sure you want to delete this blog?");
         if (confirm) {
             try {
-                const res = await axios.delete(`http://localhost:3000/delete?id=${id}`);
+                const res = await axios.delete(`https://api-e42kc5svjq-uc.a.run.app/delete?id=${id}`);
                 if (res.status === 200) {
                     setBlogItems(blogItems.filter((blogItem) => blogItem.id !== id));
                 }
@@ -48,7 +48,7 @@ function ManageBlog() {
 
     const loadBlog = async (id) => {
         try {
-            const res = await axios.get(`http://localhost:3000/loadblog?id=${id}`);
+            const res = await axios.get(`https://api-e42kc5svjq-uc.a.run.app/loadblog?id=${id}`);
             if (res.status === 200) {
                 setBlogToEdit(prevBlog => ({ ...prevBlog, ...res.data.blog, id: res.data.id }));
                 setPreviewImage(res.data.blog.image);
@@ -90,7 +90,7 @@ function ManageBlog() {
         formDataToSend.append("content", blogToEdit.content);
         formDataToSend.append("id", blogToEdit.id);
         try {
-            const res = await axios.patch(`http://localhost:3000/edit?id=${blogToEdit.id}`, formDataToSend, {
+            const res = await axios.patch(`https://api-e42kc5svjq-uc.a.run.app/edit?id=${blogToEdit.id}`, formDataToSend, {
                 headers: {
                     "Content-Type": "multipart/form-data", // Important for file uploads
                 },
@@ -117,7 +117,6 @@ function ManageBlog() {
     })
  }
 
-console.log(blogToEdit);
 
     return (
         <div className="container">

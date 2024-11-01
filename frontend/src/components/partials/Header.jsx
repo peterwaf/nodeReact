@@ -10,7 +10,7 @@ function Header() {
   const {user,resetUser} = useContext(userContext);
   const LogOut = async () => {
     try {
-      await axios.get("http://localhost:3000/logout");
+      await axios.get("https://api-e42kc5svjq-uc.a.run.app/logout");
       localStorage.removeItem("user");
       navigate("/");
       resetUser();

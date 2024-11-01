@@ -36,7 +36,7 @@ function Login() {
         e.preventDefault();
         if (validateForm().length === 0) {
             try {
-                const res = await axios.post("http://localhost:3000/login", formData);
+                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/login", formData);
                 const user = res.data.user;
                 if (user) {
                     localStorage.setItem("user", JSON.stringify(user));

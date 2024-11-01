@@ -58,7 +58,7 @@ function SignUp() {
         if (formErrors.length === 0) {
             // If there are no errors, submit the form
             try {
-                const res = await axios.post("http://localhost:3000/signup", formData);
+                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/signup", formData);
                 setFormData({ firstName: "", lastName: "", email: "", password: "", passwordRepeat: "" });
                 navigate("/login");
             } catch (error) {

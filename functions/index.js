@@ -1,3 +1,5 @@
+import { onRequest } from "firebase-functions/v2/https";
+import { logger } from "firebase-functions";
 import express from "express";
 import cors from "cors";
 import addBlog from "./routes/addblog.route.js";
@@ -33,6 +35,11 @@ app.use("/", logout);
 //readmore
 app.use("/", readmore);
 
-app.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
-})
+// Export the app as a Cloud Function
+export const api = onRequest(app);
+
+// app.listen(PORT, () => {
+//     console.log("Server running on port " + PORT);
+// })
+
+
