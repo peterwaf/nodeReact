@@ -4,10 +4,12 @@ import Header from "../components/partials/Header";
 import Footer from "../components/partials/Footer";
 import "../formstyles/login.css";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import userContext from "../Contexts/userContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../cred";
+
 function Login() {
     const [formData, setFormData] = useState({
         email: "",
@@ -15,7 +17,7 @@ function Login() {
     });
     const [errors, SetErrors] = useState([]);
     const navigate = useNavigate();
-    const { user, setUpUser, resetUser } = useContext(userContext);
+    const { setUpUser } = useContext(userContext);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevFormData => ({ ...prevFormData, [name]: value }))
@@ -36,26 +38,22 @@ function Login() {
         e.preventDefault();
         if (validateForm().length === 0) {
             try {
-                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/login", formData);
-                const user = res.data.user;
-                if (user) {
-                    localStorage.setItem("user", JSON.stringify(user));
-                    navigate("/");
-                    setUpUser();
-                }
-
+                const { email, password } = formData;
+                await signInWithEmailAndPassword(auth, email, password);
+                setUpUser();
+                navigate("/");
 
             } catch (error) {
-                if (error.response.data.error.code === "auth/wrong-password") {
+                if (error.code === "auth/wrong-password") {
                     SetErrors(prevErrors => [...prevErrors, "Wrong Password"]);
                 }
-                if (error.response.data.error.code === "auth/user-not-found") {
+                if (error.code === "auth/user-not-found") {
                     SetErrors(prevErrors => [...prevErrors, "User not found"]);
                 }
-                if (error.response.data.error.code === "auth/invalid-email") {
+                if (error.code === "auth/invalid-email") {
                     SetErrors(prevErrors => [...prevErrors, "Invalid Email"]);
                 }
-                if (error.response.data.error.code === "auth/invalid-credential") {
+                if (error.code === "auth/invalid-credential") {
                     SetErrors(prevErrors => [...prevErrors, "Invalid Credential"]);
                 }
                 else {

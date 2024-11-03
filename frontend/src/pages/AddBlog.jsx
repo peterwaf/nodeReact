@@ -61,10 +61,11 @@ function AddBlog() {
                     });
                 }
             } catch (error) {
-                setError(error.response.data.message);s
+                setError(error.response.data.message);
             }
         }
     };
+
 
      // Separate handler for ReactQuill content
      const handleContentChange = (value) => {
@@ -73,21 +74,23 @@ function AddBlog() {
             content: value,
         });
     };
+    console.log(formData);
     
     return (
         <div className="container">
              <Header/>
             <div className="content">
-                <h1>Add Blog</h1>
+                <h1>Add Blog </h1>
                 <form onSubmit={handleSubmit} id="blogForm">
                     <label htmlFor="title">Title</label>
-                    <input type="text" onChange={handleChange} value={formData.title} name="title" />
+                    <input type="text" id="title" onChange={handleChange} value={formData.title} name="title" />
                     <br />
                     <label htmlFor="image">Featured Image </label>
-                    <input type="file" onChange={handleChange} accept="image/*" name="image" />
+                    <input type="file" id="image" onChange={handleChange} accept="image/*" name="image" />
                     <br />
                     <label htmlFor="content"> Content </label>
-                    <ReactQuill theme="snow" name="content" onChange={handleContentChange} value={formData.content} id="" />
+                    <ReactQuill theme="snow" id="content" name="content" onChange={handleContentChange} value={formData.content}/>
+                    {/* <textarea name="content" onChange={handleChange} value={formData.content} className="content" id="content" /> */}
                     <div className="error">
                         <p>{error ? error : ""}</p>
                     </div>

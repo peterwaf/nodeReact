@@ -10,37 +10,44 @@ import Login from "./pages/Login";
 import userContext from "./Contexts/userContext";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReadMore from "./pages/ReadMore";
+import { auth } from "../cred";
+import onAuthStateChanged from "firebase/auth";
 function App() {
-  const [user,SetUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   // Reset user on logout
   const resetUser = () => {
-    SetUser(null);
+    setUser(null);
   }
   // Check if user is logged in on page load
   const setUpUser = () => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      SetUser(JSON.parse(user));
+    try {
+      // Check if user is logged in
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUser(user);
+        }
+        else {
+          setUser(null);
+        }
+      })
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
   useEffect(() => {
-    // Check if user is logged in
-    const user = localStorage.getItem("user");
-    if (user) {
-      SetUser(JSON.parse(user));
-    }
+    setUpUser();
   }, []);
 
   return (
     <>
-    {/* user contect provider to share user state between pages */}
-      <userContext.Provider value={{user,resetUser,setUpUser}} >
-      <BrowserRouter >
-        <Routes>
+      {/* user contect provider to share user state between pages */}
+      <userContext.Provider value={{ user, resetUser, setUpUser }} >
+        <BrowserRouter >
+          <Routes>
             <Route path="/" element={<Home />} />
             <Route path={"/add"} element={<AddBlog />} />
             <Route path={"/about"} element={<About />} />
@@ -49,8 +56,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/terms-and-conditions" element={<Terms />} />
             <Route path="/readmore" element={<ReadMore />} />
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
       </userContext.Provider>
     </>
   )
