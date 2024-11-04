@@ -69,7 +69,7 @@ function SignUp() {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 const accessToken = await user.getIdToken();
-                const res = await axios.post("http://localhost:3000/signup", userFormData, {
+                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/signup", userFormData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         enctype:"multipart/form-data",
