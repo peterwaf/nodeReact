@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
-// use modular import instead of require
-import serviceAccount from "../node-blog-94623-firebase-adminsdk-i60fn-382758f64e.json" assert { type: "json" };
+import serviceAccount from "../admin/node-blog-94623-firebase-adminsdk-i60fn-382758f64e.json" assert { type: "json" };
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -9,7 +8,7 @@ const authenticateToken = (req, res, next) => {
     if (!token) return res.sendStatus(401); // Unauthorized
     admin.auth().verifyIdToken(token)
         .then((decodedToken) => {
-            req.user = decodedToken; // You can access user details from decodedToken
+            req.user = decodedToken; //used info in token
             next(); // Proceed to the next middleware or route handler
         })
         .catch((error) => {

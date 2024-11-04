@@ -9,6 +9,7 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import userContext from "../Contexts/userContext"
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 function AddBlog() {
     const [formData, setFormData] = useState({
         title: "",
@@ -19,6 +20,7 @@ function AddBlog() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const { user } = useContext(userContext);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         if (e.target.name === "image") {
@@ -36,7 +38,6 @@ function AddBlog() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (formData.title === "" || formData.image === "" || formData.content === "") {
             setError("All fields are required");
         } else {
@@ -63,6 +64,11 @@ function AddBlog() {
                         image: "",
                         content: "",
                     });
+                    setTimeout(() => {
+                        setSuccess("");
+                        navigate("/manage");
+                    }, 2000);
+
                 }
             } catch (error) {
                 setError(error.response.data.message);
@@ -71,18 +77,17 @@ function AddBlog() {
     };
 
 
-     // Separate handler for ReactQuill content
-     const handleContentChange = (value) => {
+    // Separate handler for ReactQuill content
+    const handleContentChange = (value) => {
         setFormData({
             ...formData,
             content: value,
         });
     };
-    console.log(formData);
-    
+
     return (
         <div className="container">
-             <Header/>
+            <Header />
             <div className="content">
                 <h1>Add Blog </h1>
                 <form onSubmit={handleSubmit} id="blogForm">
@@ -93,7 +98,7 @@ function AddBlog() {
                     <input type="file" id="image" onChange={handleChange} accept="image/*" name="image" />
                     <br />
                     <label htmlFor="content"> Content </label>
-                    <ReactQuill theme="snow" id="content" name="content" onChange={handleContentChange} value={formData.content}/>
+                    <ReactQuill theme="snow" id="content" name="content" onChange={handleContentChange} value={formData.content} />
                     {/* <textarea name="content" onChange={handleChange} value={formData.content} className="content" id="content" /> */}
                     <div className="error">
                         <p>{error ? error : ""}</p>

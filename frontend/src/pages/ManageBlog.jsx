@@ -90,7 +90,7 @@ function ManageBlog() {
         formDataToSend.append("content", blogToEdit.content);
         formDataToSend.append("id", blogToEdit.id);
         try {
-            const res = await axios.patch(`https://api-e42kc5svjq-uc.a.run.app/edit?id=${blogToEdit.id}`, formDataToSend, {
+            const res = await axios.patch(`http://localhost:3000/edit?id=${blogToEdit.id}`, formDataToSend, {
                 headers: {
                     "Content-Type": "multipart/form-data", // Important for file uploads
                 },

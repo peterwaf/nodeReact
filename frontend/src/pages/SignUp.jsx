@@ -4,7 +4,7 @@ import Header from "../components/partials/Header";
 import Footer from "../components/partials/Footer";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../cred";
 function SignUp() {
@@ -61,18 +61,44 @@ function SignUp() {
             // If there are no errors, submit the form
             const {email, password } = formData;
             try {
+                const userFormData = new FormData();
+                userFormData.append("firstName", formData.firstName);
+                userFormData.append("lastName", formData.lastName);
+                userFormData.append("email", formData.email);
+                userFormData.append("password", formData.password);
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 const accessToken = await user.getIdToken();
-                await axios.post("http://localhost:3000/signup", formData, {
+                const res = await axios.post("http://localhost:3000/signup", userFormData, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`
+                        Authorization: `Bearer ${accessToken}`,
+                        enctype:"multipart/form-data",
                     }
                 });
-                setFormData({ firstName: "", lastName: "", email: "", password: "", passwordRepeat: "" });
-                navigate("/login");
+                
+                if (res.status === 200) {
+                    setSuccess(res.data.message);
+                    navigate("/login");
+                }
+                
             } catch (error) {
                 console.log(error.message);
+                if (error.code === "auth/email-already-in-use") {
+                    formErrors.push("Email already in use");
+                    setErrors(formErrors);
+                }
+                if (error.code === "auth/weak-password") {
+                    formErrors.push("Password must be at least 6 characters");
+                    setErrors(formErrors);
+                }
+                if (error.code === "auth/invalid-email") {
+                    formErrors.push("Email is not valid, use the format: abc@example.com");
+                    setErrors(formErrors);
+                }
+                else {
+                    formErrors.push("Something went wrong, try again later with correct credentials");
+                    setErrors(formErrors);
+                }
             }
         }
     };

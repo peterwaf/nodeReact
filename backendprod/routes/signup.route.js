@@ -8,25 +8,31 @@ const upload = multer();
 const router = express.Router();
 router.post("/signup", authenticateToken, upload.none(), async (req, res) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, email } = req.body;
+        const user = req.user; // Access `user` data from `req.user`
+        if (!user) {
+            return res.status(400).json({ message: "User data not found. Ensure authentication is complete." });
+        }
+        // Add user data to the Firestore
         await addDoc(collection(db, "users"), {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            uid: user.uid,
+            uid: user.user_id,
             createdAt: new Date().toISOString(),
             isAdmin: false
-        })
+        });
+
         res.status(200).json({
-            message: `Account  ${user.email} created successfully`,
+            message: `Account ${user.email} created successfully`,
             user: user
-        })
+        });
     } catch (error) {
         res.status(500).json({
             message: "Server Error, try again later",
-            error: error
-        })
+            error: error.message || error
+        });
     }
-})
+});
 
-export default router
+export default router;
