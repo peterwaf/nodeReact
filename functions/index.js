@@ -7,6 +7,7 @@ import editBlog from "./routes/edit.route.js";
 import loadBlog from "./routes/loadblog.route.js";
 import signUp from "./routes/signup.route.js";
 import readmore from "./routes/readmore.route.js";
+import { onRequest } from "firebase-functions/https";
 const app = express();
 app.use(express.json());
 app.use(cors());

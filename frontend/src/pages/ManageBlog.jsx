@@ -4,6 +4,8 @@ import Footer from "../components/partials/Footer"
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
+import userContext from "../Contexts/userContext"
+import { useContext } from "react"
 // import ReactQuill from 'react-quill for text editor
 import ReactQuill from 'react-quill'
 // Import Quill styles
@@ -16,6 +18,7 @@ function ManageBlog() {
     const [success, setSuccess] = useState("");
     const [editButtonClicked, setEditButtonClicked] = useState(false);
     const navigate = useNavigate();
+    const { user } = useContext(userContext);
 
     useEffect(() => {
         const getData = async () => {
@@ -33,7 +36,13 @@ function ManageBlog() {
         const confirm = window.confirm("Are you sure you want to delete this blog?");
         if (confirm) {
             try {
-                const res = await axios.delete(`https://api-e42kc5svjq-uc.a.run.app/delete?id=${id}`);
+                const accessToken = await user.getIdToken();
+                const res = await axios.delete(`https://api-e42kc5svjq-uc.a.run.app/delete?id=${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
                 if (res.status === 200) {
                     setBlogItems(blogItems.filter((blogItem) => blogItem.id !== id));
                 }
@@ -92,6 +101,7 @@ function ManageBlog() {
         try {
             const res = await axios.patch(`https://api-e42kc5svjq-uc.a.run.app/edit?id=${blogToEdit.id}`, formDataToSend, {
                 headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data", // Important for file uploads
                 },
             });

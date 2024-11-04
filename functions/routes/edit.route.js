@@ -2,12 +2,13 @@ import express from "express";
 import multer from "multer";
 import { collection,doc, updateDoc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, bucket } from "../config.js"
+import { db, bucket } from "../config.js";
+import { authenticateToken } from "../middlewares/authenticateToken.js";
 
 const router = express.Router();
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
-router.patch("/edit/", upload.single('image'), async (req, res) => {
+router.patch("/edit/",authenticateToken, upload.single('image'), async (req, res) => {
     const id = req.query.id;
     const { title, content } = req.body;
     const image = req.file;

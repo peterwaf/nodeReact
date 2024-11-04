@@ -6,7 +6,7 @@ import authenticateToken from "../middlewares/authenticateToken.js";
 // use modular import instead of require
 const upload = multer();
 const router = express.Router();
-router.post("/signup", authenticateToken, upload.none(), async (req, res) => {
+router.post("/signup", upload.none(), async (req, res) => {
     try {
         const { firstName, lastName, email } = req.body;
         const user = req.user; // Access `user` data from `req.user`
