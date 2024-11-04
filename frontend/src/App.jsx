@@ -13,9 +13,10 @@ import Terms from "./pages/Terms";
 import { useState, useEffect } from "react";
 import ReadMore from "./pages/ReadMore";
 import { auth } from "../cred";
-import onAuthStateChanged from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 function App() {
   const [user, setUser] = useState(null);
+console.log(user);
 
   // Reset user on logout
   const resetUser = () => {

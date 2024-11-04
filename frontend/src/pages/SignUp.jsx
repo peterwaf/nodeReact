@@ -5,6 +5,8 @@ import Footer from "../components/partials/Footer";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../../cred";
 function SignUp() {
     const [formData, setFormData] = useState({
         firstName: "",
@@ -51,14 +53,22 @@ function SignUp() {
         return formErrors; // Return the errors for use in handleSubmit
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Validate the form and submit if valid
         const formErrors = validateForm(); // Validate the form and get errors
         if (formErrors.length === 0) {
             // If there are no errors, submit the form
+            const {email, password } = formData;
             try {
-                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/signup", formData);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                const accessToken = await user.getIdToken();
+                await axios.post("http://localhost:3000/signup", formData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
                 setFormData({ firstName: "", lastName: "", email: "", password: "", passwordRepeat: "" });
                 navigate("/login");
             } catch (error) {

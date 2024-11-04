@@ -7,6 +7,8 @@ import axios from 'axios'
 import ReactQuill from 'react-quill'
 // Import Quill styles
 import 'react-quill/dist/quill.snow.css'
+import userContext from "../Contexts/userContext"
+import { useContext } from "react"
 function AddBlog() {
     const [formData, setFormData] = useState({
         title: "",
@@ -16,6 +18,7 @@ function AddBlog() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const { user } = useContext(userContext);
 
     const handleChange = (e) => {
         if (e.target.name === "image") {
@@ -44,11 +47,12 @@ function AddBlog() {
             formDataToSend.append("title", formData.title);
             formDataToSend.append("content", formData.content);
             formDataToSend.append("image", formData.image); // The file
-
+            const accessToken = await user.getIdToken();
             try {
-                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/add", formDataToSend, {
+                const res = await axios.post("http://localhost:3000/add", formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data", // Important for file uploads
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 });
 

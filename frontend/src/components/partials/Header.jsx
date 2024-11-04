@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth"; 
 import userContext from "../../Contexts/userContext.jsx";
-import auth from "../../../cred.js";
+import { auth } from "../../../cred.js";
 
 function Header() {
   const navigate = useNavigate();
