@@ -1,5 +1,5 @@
 import { onRequest } from "firebase-functions/v2/https";
-import { logger } from "firebase-functions";
+// import { logger } from "firebase-functions";
 import express from "express";
 import cors from "cors";
 import addBlog from "./routes/addblog.route.js";
@@ -14,6 +14,7 @@ import readmore from "./routes/readmore.route.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 //set default port to 3000 or any other port you prefer
 const PORT = process.env.PORT || 3000;
 //add blog

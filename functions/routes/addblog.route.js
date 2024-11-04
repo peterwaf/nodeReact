@@ -32,7 +32,8 @@ router.post("/add", upload.single('image'), async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).json({
-            message: "Server Error, try again later"
+            message: "Server Error, try again later",
+            error: error.message
         })
     }
 

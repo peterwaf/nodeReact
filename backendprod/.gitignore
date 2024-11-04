@@ -11,7 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
-
+#ignore admin file
+node-blog-94623-firebase-adminsdk-i60fn-5916e711b9.json
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

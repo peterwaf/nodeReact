@@ -6,8 +6,6 @@ import deleteBlog from "./routes/deleteblog.route.js";
 import editBlog from "./routes/edit.route.js";
 import loadBlog from "./routes/loadblog.route.js";
 import signUp from "./routes/signup.route.js";
-import login from "./routes/login.route.js";
-import logout from "./routes/logout.route.js";
 import readmore from "./routes/readmore.route.js";
 const app = express();
 app.use(express.json());
@@ -26,12 +24,9 @@ app.use("/", editBlog);
 app.use("/", loadBlog);
 //signup
 app.use("/", signUp);
-//login
-app.use("/", login);
-//logout
-app.use("/", logout);
 //readmore
 app.use("/", readmore);
+app.get('/ping', (req, res) => res.send('pong'));
 
 app.listen(PORT, () => {
     console.log("Server running on port " + PORT);
