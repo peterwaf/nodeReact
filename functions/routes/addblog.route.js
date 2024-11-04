@@ -3,12 +3,11 @@ import multer from "multer";
 import { addDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, bucket } from "../config.js";
-
+import authenticateToken from "../middlewares/authenticateToken.js";
 const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
-router.post("/add", upload.single('image'), async (req, res) => {
+router.post("/add",authenticateToken, upload.single('image'), async (req, res) => {
     const { title, content } = req.body;
     const image = req.file;
     if (!image || !title || !content) {
@@ -32,8 +31,7 @@ router.post("/add", upload.single('image'), async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).json({
-            message: "Server Error, try again later",
-            error: error.message
+            message: "Server Error, try again later"
         })
     }
 
