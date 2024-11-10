@@ -1,13 +1,12 @@
 import express from "express";
 import multer from "multer";
-import { collection,doc, updateDoc, getDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, bucket } from "../config.js"
+import { db, bucket } from "../config.js";
+import authenticateToken from "../middlewares/authenticateToken.js";
 
 const router = express.Router();
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
-router.patch("/edit/", upload.single('image'), async (req, res) => {
+router.patch("/edit/", authenticateToken, upload.single('image'), async (req, res) => {
     const id = req.query.id;
     const { title, content } = req.body;
     const image = req.file;
@@ -15,23 +14,29 @@ router.patch("/edit/", upload.single('image'), async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
     }
     try {
-        const blogRef = doc(collection(db, "blogs"), id);
+        const blogRef = await db.collection("blogs").doc(id).get();
         if (image) {
-            const imageRef = ref(bucket, `images/${crypto.randomUUID()}${image.originalname}`);
-            const imageUpload = await uploadBytes(imageRef, image.buffer, { contentType: image.mimetype });
-            const imageUrl = await getDownloadURL(imageUpload.ref);
-            await updateDoc(blogRef, {
+            const imageFile = bucket.file(`images/${image.originalname}`);
+            await imageFile.save(image.buffer, {
+                metadata: {
+                    contentType: image.mimetype
+                }
+            })
+            imageFile.makePublic();
+            const imageUrl = imageFile.publicUrl();
+            db.collection("blogs").doc(id).update({
                 title: title,
                 image: imageUrl,
-                content: content
+                content: content,
+                createdOn: new Date().toISOString()
             })
         } else {
-            await updateDoc(blogRef, {
+            await db.collection("blogs").doc(id).update({
                 title: title,
                 content: content
             })
         }
-        const blogSnapShot = await getDoc(blogRef);
+        const blogSnapShot = await db.collection("blogs").doc(id).get();
         res.status(200).json({
             message: "Blog updated successfully",
             blog: {

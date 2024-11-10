@@ -1,24 +1,29 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import admin from "firebase-admin";
 import dotenv from "dotenv";
-// Load environment variables from .env file or replace with your own values
-dotenv.config(); //remove if using your api keys 
-const firebaseConfig = {
-  apiKey:process.env.MY_APP_API_KEY,
-  authDomain:process.env.MY_APP_AUTH_DOMAIN,
-  projectId:process.env.MY_APP_PROJECT_ID,
-  storageBucket:process.env.MY_APP_STORAGE_BUCKET,
-  messagingSenderId:process.env.MY_APP_MESSAGING_SENDER_ID,
-  appId:process.env.MY_APP_APP_ID
-};
+dotenv.config();
+const serviceAccount = {
+  "type":process.env.MY_APP_TYPE,
+  "project_id":process.env.MY_APP_PROJECT_ID,
+  "private_key_id":process.env.MY_APP_PRIVATE_KEY_ID,
+  "private_key":process.env.MY_APP_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  "client_email":process.env.MY_APP_CLIENT_EMAIL,
+  "client_id":process.env.MY_APP_CLIENT_ID,
+  "auth_uri":process.env.MY_APP_AUTH_URI,
+  "token_uri":process.env.MY_APP_TOKEN_URI,
+  "auth_provider_x509_cert_url":process.env.MY_APP_AUTH_PROVIDER_X509_CERT_URL,
+  "client_x509_cert_url":process.env.MY_APP_CLIENT_X509_CERT_URL,
+  "universe_domain":process.env.MY_APP_UNIVERSE_DOMAIN
+}
 
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
-const bucket = getStorage(firebaseApp);
-const auth = getAuth(firebaseApp);
-export { db, bucket,auth }
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: process.env.MY_APP_STORAGE_BUCKET,
+  app_name: process.env.MY_APP_APP_NAME
+});
+
+const db = admin.firestore();
+const bucket = admin.storage().bucket();
+const auth = admin.auth();
+export { db, bucket, auth };
 
 

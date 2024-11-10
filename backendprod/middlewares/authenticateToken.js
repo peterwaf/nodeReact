@@ -1,15 +1,13 @@
 import admin from "firebase-admin";
-import serviceAccount from "../admin/node-blog-94623-firebase-adminsdk-i60fn-382758f64e.json" assert { type: "json" };
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
 const authenticateToken = (req, res, next) => {
     const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
     if (!token) return res.sendStatus(401); // Unauthorized
     admin.auth().verifyIdToken(token)
         .then((decodedToken) => {
             req.user = decodedToken; //used info in token
-            next(); // Proceed to the next middleware or route handler
+            if(req.user){
+                next(); // Proceed to the next middleware or route handler
+            }
         })
         .catch((error) => {
             console.error('Error verifying token:', error);

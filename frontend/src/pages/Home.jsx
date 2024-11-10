@@ -3,7 +3,6 @@ import Header from "../components/partials/Header"
 import Footer from "../components/partials/Footer"
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import parse from "html-react-parser"
 import { Link } from "react-router-dom"
 
 function Home() {
@@ -13,7 +12,7 @@ function Home() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("https://api-e42kc5svjq-uc.a.run.app/");
+        const res = await axios.get("http://localhost:3000/");
         setBlogItems(res.data.blogs);
       } catch (error) {
         console.log(error.message);

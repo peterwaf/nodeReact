@@ -2,7 +2,6 @@ import express from "express";
 import multer from "multer";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../config.js";
-import authenticateToken from "../middlewares/authenticateToken.js";
 // use modular import instead of require
 const upload = multer();
 const router = express.Router();
