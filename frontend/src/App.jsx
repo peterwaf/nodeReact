@@ -6,6 +6,7 @@ import AddBlog from "./pages/AddBlog";
 import ManageBlog from "./pages/ManageBlog";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import UpdateUser from "./pages/UpdateUser";
 // import userContext from "./Contexts/userContext";
 import userContext from "./Contexts/userContext";
 import About from "./pages/About";
@@ -16,7 +17,6 @@ import { auth } from "../cred";
 import { onAuthStateChanged } from "firebase/auth";
 function App() {
   const [user, setUser] = useState(null);
-console.log(user);
 
   // Reset user on logout
   const resetUser = () => {
@@ -57,6 +57,7 @@ console.log(user);
             <Route path="/login" element={<Login />} />
             <Route path="/terms-and-conditions" element={<Terms />} />
             <Route path="/readmore" element={<ReadMore />} />
+            <Route path="/update-user-role" element={<UpdateUser />} />
           </Routes>
         </BrowserRouter>
       </userContext.Provider>

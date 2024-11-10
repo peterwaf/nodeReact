@@ -7,8 +7,6 @@ import { Link } from "react-router-dom"
 
 function Home() {
   const [blogItems, setBlogItems] = useState([]);
-  console.log(blogItems);
-  
   useEffect(() => {
     const getData = async () => {
       try {
