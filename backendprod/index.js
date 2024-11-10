@@ -7,6 +7,7 @@ import editBlog from "./routes/edit.route.js";
 import loadBlog from "./routes/loadblog.route.js";
 import signUp from "./routes/signup.route.js";
 import readmore from "./routes/readmore.route.js";
+import updateUserRole from "./routes/updateuser.route.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -26,6 +27,8 @@ app.use("/", loadBlog);
 app.use("/", signUp);
 //readmore
 app.use("/", readmore);
+//update user
+app.use("/", updateUserRole);
 app.get('/ping', (req, res) => res.send('pong'));
 
 app.listen(PORT, () => {
