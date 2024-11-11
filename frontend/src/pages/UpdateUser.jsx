@@ -24,6 +24,11 @@ function UpdateUser() {
             formDataToSend.append("userId", formData.userId);
             formDataToSend.append("isAdmin", formData.isAdmin);
             const accessToken = await updateUserContext.user.getIdToken();
+            if (updateUserContext.user.email !== "peterwafulah@gmail.com") {
+                alert("Not authorized,contact peterwafulah@gmail.com");
+                navigate("/");
+                return;
+            }
             const response = await axios.patch("http://localhost:3000/update-user-role", formDataToSend, {
                 headers: {
                     "Content-Type": "multipart/form-data", // Important for file uploads

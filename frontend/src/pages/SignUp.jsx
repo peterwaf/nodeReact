@@ -78,7 +78,7 @@ function SignUp() {
                 
                 if (res.status === 200) {
                     setSuccess(res.data.message);
-                    navigate("/login");
+                    navigate("/");
                 }
                 
             } catch (error) {
