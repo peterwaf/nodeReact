@@ -1,16 +1,16 @@
 import express from "express";
-import { deleteDoc, doc, collection } from "firebase/firestore";
+import authenticateToken from "../middlewares/authenticateToken.js";
 import { db } from "../config.js";
+
 const router = express.Router();
 
-router.delete("/delete/", async (req, res) => {
+router.delete("/delete/",authenticateToken, async (req, res) => {
     const id = req.query.id;
     if (!id) {
         return res.status(400).json({ message: 'ID is required' });
     }
     try {
-        const blogRef = doc(collection(db, "blogs"), id);
-        await deleteDoc(blogRef);
+        const blogRef = await db.collection("blogs").doc(id).delete();
         res.status(200).json({
             message: "Blog deleted successfully"
         })

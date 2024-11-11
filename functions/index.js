@@ -7,6 +7,8 @@ import editBlog from "./routes/edit.route.js";
 import loadBlog from "./routes/loadblog.route.js";
 import signUp from "./routes/signup.route.js";
 import readmore from "./routes/readmore.route.js";
+import updateUserRole from "./routes/updateuser.route.js";
+import getUserRole from "./routes/getuserrole.route.js";
 import { onRequest } from "firebase-functions/https";
 const app = express();
 app.use(express.json());
@@ -27,13 +29,18 @@ app.use("/", loadBlog);
 app.use("/", signUp);
 //readmore
 app.use("/", readmore);
+//update user
+app.use("/", updateUserRole);
+//get user role
+app.use("/", getUserRole);
 app.get('/ping', (req, res) => res.send('pong'));
-
-// Export the app as a Cloud Function
+//export the app to enable cloud functions
 export const api = onRequest(app);
 
-// app.listen(PORT, () => {
+// for local testing use the localhost port
+//app.listen(PORT, () => {
 //     console.log("Server running on port " + PORT);
 // })
 
+//run firebase functions emulator
 

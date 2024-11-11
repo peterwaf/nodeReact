@@ -29,7 +29,7 @@ function UpdateUser() {
                 navigate("/");
                 return;
             }
-            const response = await axios.patch("http://localhost:3000/update-user-role", formDataToSend, {
+            const response = await axios.patch("https://api-e42kc5svjq-uc.a.run.app/update-user-role", formDataToSend, {
                 headers: {
                     "Content-Type": "multipart/form-data", // Important for file uploads
                     Authorization: `Bearer ${accessToken}`,

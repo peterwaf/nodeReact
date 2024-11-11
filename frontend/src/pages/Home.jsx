@@ -10,7 +10,7 @@ function Home() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/");
+        const res = await axios.get("https://api-e42kc5svjq-uc.a.run.app/");
         setBlogItems(res.data.blogs);
       } catch (error) {
         console.log(error.message);

@@ -18,7 +18,7 @@ function ReadMore() {
       try {
         const searchParams = new URLSearchParams(window.location.search);
         const id = searchParams.get("id");
-        const res = await axios.get(`http://localhost:3000/readmore?id=${id}`);
+        const res = await axios.get(`https://api-e42kc5svjq-uc.a.run.app/readmore?id=${id}`);
         setBlogItem(res.data.blog);
       } catch (error) {
         console.log(error.message);

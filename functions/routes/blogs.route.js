@@ -1,12 +1,10 @@
 import express from "express";
-import { getDocs, collection } from "firebase/firestore";
 import { db } from "../config.js";
-
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const blogsSnapShot = await getDocs(collection(db, "blogs"));
+        const blogsSnapShot = await db.collection("blogs").get();
         const blogs = [];
         blogsSnapShot.forEach((doc) => {
             const blog = doc.data();
