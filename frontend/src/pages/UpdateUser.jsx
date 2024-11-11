@@ -31,6 +31,7 @@ function UpdateUser() {
                 },
             });
            setSuccess(response.data.message);
+           updateUserContext.checkUserRole();
             setTimeout(() => {
                 setSuccess("");
             }, 2000);

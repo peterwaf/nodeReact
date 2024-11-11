@@ -15,8 +15,15 @@ import { useState, useEffect } from "react";
 import ReadMore from "./pages/ReadMore";
 import { auth } from "../cred";
 import { onAuthStateChanged } from "firebase/auth";
+import axios from "axios";
 function App() {
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+
+  const resetAdmin = () => {
+    setIsAdmin(false);
+  }
 
   // Reset user on logout
   const resetUser = () => {
@@ -43,10 +50,33 @@ function App() {
     setUpUser();
   }, []);
 
+  const checkUserRole = () => {
+    // Check if user is an admin
+    if (user) {
+      axios.get(`http://localhost:3000/get-user-role?userId=${user.uid}`)
+        .then((response) => {
+          if (response.data.isAdmin) {
+            setIsAdmin(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setIsAdmin(false);
+        });
+    }
+
+  }
+
+  useEffect(() => {
+    checkUserRole();
+  }, [user]);
+
+  console.log(user);
+  console.log("isAdmin", isAdmin);
   return (
     <>
       {/* user contect provider to share user state between pages */}
-      <userContext.Provider value={{ user, resetUser, setUpUser }} >
+      <userContext.Provider value={{ user, resetUser, setUpUser,isAdmin, resetAdmin,checkUserRole }} >
         <BrowserRouter >
           <Routes>
             <Route path="/" element={<Home />} />
