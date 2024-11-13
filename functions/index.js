@@ -12,7 +12,12 @@ import getUserRole from "./routes/getuserrole.route.js";
 import { onRequest } from "firebase-functions/https";
 const app = express();
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+    origin: 'https://node-blog-94623.web.app',
+    methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 //set default port to 3000 or any other port you prefer
 const PORT = process.env.PORT || 3000;
 //add blog

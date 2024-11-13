@@ -1,55 +1,80 @@
 import express from "express";
-import multer from "multer";
 import { db, bucket } from "../config.js";
 import authenticateToken from "../middlewares/authenticateToken.js";
+import formidable from "formidable";
 
 const router = express.Router();
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-router.patch("/edit/", authenticateToken, upload.single('image'), async (req, res) => {
-    const id = req.query.id;
-    const { title, content } = req.body;
-    const image = req.file;
-    if (!id || !title || !content) {
-        return res.status(400).json({ message: 'All fields are required' });
+
+router.patch("/edit/", authenticateToken, async (req, res) => {
+    const blogId = req.query.id; // Rename to blogId to avoid conflicts
+    const form = formidable({});
+    if (!blogId) {
+        return res.status(400).json({ message: 'Blog ID is required' });
     }
-    try {
-        const blogRef = await db.collection("blogs").doc(id).get();
+
+    form.parse(req, (err, fields, files) => {
+        const { title, content} = fields;
+        const image = files.image ? files.image[0] : null;
+
+        if (err) {
+            console.error("Error during file upload:", err);
+            return res.status(500).json({ error: err, message: "Error during file upload" });
+        }
+        if (!title || !content) {
+            return res.status(400).json({ message: 'Title and content are required' });
+        }
+
         if (image) {
-            const imageFile = bucket.file(`images/${image.originalname}`);
-            await imageFile.save(image.buffer, {
+            const imageFile = bucket.file(`images/${image.originalFilename}`);
+            bucket.upload(image.filepath, {
+                destination: `images/${image.originalFilename}`,
                 metadata: {
                     contentType: image.mimetype
                 }
-            })
-            imageFile.makePublic();
-            const imageUrl = imageFile.publicUrl();
-            db.collection("blogs").doc(id).update({
-                title: title,
-                image: imageUrl,
-                content: content,
-                createdOn: new Date().toISOString()
-            })
+            }).then(() => {
+                imageFile.makePublic(); // Make the file publicly accessible
+                const imageUrl = imageFile.publicUrl();
+                // Add to database
+                db.collection("blogs").doc(blogId).update({
+                    title: title[0],
+                    image: imageUrl,
+                    content: content[0],
+                    createdOn: new Date().toISOString()
+                }).then(async () => {
+                    const editedBlogSnapshot = await db.collection("blogs").doc(blogId).get();
+                    const blog = {id: editedBlogSnapshot.id,...editedBlogSnapshot.data()};
+                    res.status(200).json({
+                        message: "Blog updated successfully",
+                        imageUrl: imageUrl,
+                        blog: blog
+                        
+                    });
+                }).catch((error) => {
+                    console.error("Error updating blog:", error);
+                    return res.status(500).json({ error: error, message: "Error updating blog" });
+                });
+            }).catch((error) => {
+                console.error("Error during file upload:", error);
+                return res.status(500).json({ error: error, message: "Error during file upload" });
+            });
         } else {
-            await db.collection("blogs").doc(id).update({
-                title: title,
-                content: content
-            })
+            db.collection("blogs").doc(blogId).update({
+                title: title[0],
+                content: content[0],
+                createdOn: new Date().toISOString(),
+            }).then(async () => {
+                const editedBlogSnapshot = await db.collection("blogs").doc(blogId).get();
+                const blogToEdit = {id: editedBlogSnapshot.id,...editedBlogSnapshot.data()};
+                res.status(200).json({
+                    message: "Blog updated successfully",
+                    blog: blogToEdit
+                });
+            }).catch((error) => {
+                console.error("Error updating blog:", error);
+                return res.status(500).json({ error: error, message: "Error updating blog" });
+            });
         }
-        const blogSnapShot = await db.collection("blogs").doc(id).get();
-        res.status(200).json({
-            message: "Blog updated successfully",
-            blog: {
-                ...blogSnapShot.data(),
-                id: blogSnapShot.id
-            }
-        })
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({
-            message: "Server Error, try again later"
-        })
-    }
-})
+    });
+});
 
-export default router
+export default router;

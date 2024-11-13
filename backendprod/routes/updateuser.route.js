@@ -1,10 +1,8 @@
 import express from "express";
 import {db} from "../config.js";
-import multer from "multer";
 const router = express.Router();
-const upload = multer();
 import authenticateToken from "../middlewares/authenticateToken.js";
-router.patch("/update-user-role", authenticateToken, upload.none(), async (req, res) => {
+router.patch("/update-user-role", authenticateToken, async (req, res) => {
     const userId = req.body.userId;
     const isAdmin = Boolean(req.body.isAdmin);
     
