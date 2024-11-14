@@ -53,7 +53,7 @@ function App() {
   const checkUserRole = () => {
     // Check if user is an admin
     if (user) {
-      axios.get(`https://api-e42kc5svjq-uc.a.run.app/get-user-role?userId=${user.uid}`)
+      axios.get(`https://dailychronicles.vercel.app/get-user-role?userId=${user.uid}`)
         .then((response) => {
           if (response.data.isAdmin) {
             setIsAdmin(true);

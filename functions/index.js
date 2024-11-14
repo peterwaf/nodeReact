@@ -12,12 +12,7 @@ import getUserRole from "./routes/getuserrole.route.js";
 import { onRequest } from "firebase-functions/https";
 const app = express();
 app.use(express.json());
-const corsOptions = {
-    origin: 'https://node-blog-94623.web.app',
-    methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
-app.use(cors(corsOptions));
+app.use(cors());
 //set default port to 3000 or any other port you prefer
 const PORT = process.env.PORT || 3000;
 //add blog
@@ -39,11 +34,11 @@ app.use("/", updateUserRole);
 //get user role
 app.use("/", getUserRole);
 app.get('/ping', (req, res) => res.send('pong'));
-//export the app to enable cloud functions
-export const api = onRequest(app);
+//export the app to enable cloud functions if deploying to cloud functionsthem
+export const api = onRequest({timeoutSeconds: 540}, app);
 
-// for local testing use the localhost port
-//app.listen(PORT, () => {
+// // for local testing use the localhost port
+// app.listen(PORT, () => {
 //     console.log("Server running on port " + PORT);
 // })
 

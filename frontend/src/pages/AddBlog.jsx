@@ -51,7 +51,7 @@ function AddBlog() {
             const accessToken = await user.getIdToken();
 
             try {
-                const res = await axios.post("https://api-e42kc5svjq-uc.a.run.app/add", formDataToSend, {
+                const res = await axios.post("https://dailychronicles.vercel.app/add", formDataToSend, {
                     headers: {
                         "Content-Type": "multipart/form-data", // Important for file uploads
                         Authorization: `Bearer ${accessToken}`,
