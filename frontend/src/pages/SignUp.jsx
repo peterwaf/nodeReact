@@ -73,7 +73,7 @@ function SignUp() {
                 const accessToken = await user.getIdToken();
                 const userId = user.uid;
                 userFormData.append("userId", userId);
-                const res = await axios.post("http://localhost:3000/signup", userFormData, {
+                const res = await axios.post("https://dailychronicles.vercel.app/signup", userFormData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         enctype:"multipart/form-data",

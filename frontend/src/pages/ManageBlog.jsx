@@ -23,7 +23,7 @@ function ManageBlog() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get("http://localhost:3000");
+                const res = await axios.get("https://dailychronicles.vercel.app");
                 setBlogItems(res.data.blogs);
             } catch (error) {
                 console.log(error.message);
@@ -37,7 +37,7 @@ function ManageBlog() {
         if (confirm) {
             try {
                 const accessToken = await user.getIdToken();
-                const res = await axios.delete(`http://localhost:3000/delete?id=${id}`, {
+                const res = await axios.delete(`https://dailychronicles.vercel.app/delete?id=${id}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -57,7 +57,7 @@ function ManageBlog() {
 
     const loadBlog = async (id) => {
         try {
-            const res = await axios.get(`http://localhost:3000/loadblog?id=${id}`);
+            const res = await axios.get(`https://dailychronicles.vercel.app/loadblog?id=${id}`);
             if (res.status === 200) {
                 setBlogToEdit(prevBlog => ({ ...prevBlog, ...res.data.blog, id: res.data.id }));
                 setPreviewImage(res.data.blog.image);
@@ -99,7 +99,7 @@ function ManageBlog() {
         formDataToSend.append("content", blogToEdit.content);
         try {
             const accessToken = await user.getIdToken();
-            const res = await axios.patch(`http://localhost:3000/edit?id=${blogToEdit.id}`, formDataToSend, {
+            const res = await axios.patch(`https://dailychronicles.vercel.app/edit?id=${blogToEdit.id}`, formDataToSend, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "multipart/form-data", // Important for file uploads
