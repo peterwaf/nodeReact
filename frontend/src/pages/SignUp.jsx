@@ -18,6 +18,7 @@ function SignUp() {
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
     const [success, setSuccess] = useState("");
+    const [showHideSuccess, setShowHideSuccess] = useState(true);
 
     const handleChange = (e) => {
         setFormData(prevFornData => ({
@@ -53,55 +54,56 @@ function SignUp() {
         return formErrors; // Return the errors for use in handleSubmit
     };
 
+ 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Validate the form and submit if valid
-        const formErrors = validateForm(); // Validate the form and get errors
+        const formErrors = validateForm();
         if (formErrors.length === 0) {
-            // If there are no errors, submit the form
-            const {email, password } = formData;
+            const { firstName, lastName, email, password } = formData;
+            
             try {
                 const userFormData = new FormData();
-                userFormData.append("firstName", formData.firstName);
-                userFormData.append("lastName", formData.lastName);
-                userFormData.append("email", formData.email);
-                userFormData.append("password", formData.password);
+                userFormData.append("firstName", firstName);
+                userFormData.append("lastName", lastName);
+                userFormData.append("email", email);
+                userFormData.append("password", password);
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 const accessToken = await user.getIdToken();
-                const res = await axios.post("https://dailychronicles.vercel.app/signup", userFormData, {
+                const userId = user.uid;
+                userFormData.append("userId", userId);
+                const res = await axios.post("http://localhost:3000/signup", userFormData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                         enctype:"multipart/form-data",
                     }
                 });
-                
+    
                 if (res.status === 200) {
-                    setSuccess(res.data.message);
-                    navigate("/login");
+                setSuccess("Signed up successfully");
+                setTimeout(() => {
+                    setShowHideSuccess(false);
+                }, 2000);
+                navigate("/login");
                 }
-                
             } catch (error) {
-                console.log(error.message);
-                if (error.code === "auth/email-already-in-use") {
-                    formErrors.push("Email already in use");
-                    setErrors(formErrors);
+                if(error){
+                    showHideSuccess(false);
                 }
-                if (error.code === "auth/weak-password") {
-                    formErrors.push("Password must be at least 6 characters");
-                    setErrors(formErrors);
+                if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                    setErrors((prevErrors) => [...prevErrors, "Email already in use"]);
                 }
-                if (error.code === "auth/invalid-email") {
-                    formErrors.push("Email is not valid, use the format: abc@example.com");
-                    setErrors(formErrors);
+                if (error.message === "Firebase: Error (auth/invalid-email).") {
+                    setErrors((prevErrors) => [...prevErrors, "Invalid email"]);
                 }
-                else {
-                    formErrors.push("Something went wrong, try again later with correct credentials");
-                    setErrors(formErrors);
+                if (error.message === "Firebase: Error (auth/weak-password).") {
+                    setErrors((prevErrors) => [...prevErrors, "Password must be at least 6 characters"]);
                 }
             }
         }
     };
+
 
     return (
         <div className="container">
@@ -131,7 +133,7 @@ function SignUp() {
                                 <p key={index}>{error}</p>
                             ))}
                         </div>
-                        <span className="success">{success}</span>
+                        <span className="success">{showHideSuccess && success}</span>
                         <p>By creating an account you agree to our <a href="/terms-and-conditions" style={{ color: "dodgerblue" }}>Terms & Privacy</a>.</p>
 
                         <div className="clearfix">

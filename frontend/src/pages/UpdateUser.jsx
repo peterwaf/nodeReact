@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from "../components/partials/Header";
 import Footer from "../components/partials/Footer";
 import { useContext } from "react";
@@ -24,12 +24,13 @@ function UpdateUser() {
             formDataToSend.append("userId", formData.userId);
             formDataToSend.append("isAdmin", formData.isAdmin);
             const accessToken = await updateUserContext.user.getIdToken();
+            
             if (updateUserContext.user.email !== "peterwafulah@gmail.com") {
                 alert("Not authorized,contact peterwafulah@gmail.com");
                 navigate("/");
                 return;
             }
-            const response = await axios.patch("https://dailychronicles.vercel.app/update-user-role", formDataToSend, {
+            const response = await axios.patch("http://localhost:3000/update-user-role", formDataToSend, {
                 headers: {
                     "Content-Type": "multipart/form-data", // Important for file uploads
                     Authorization: `Bearer ${accessToken}`,
@@ -52,6 +53,7 @@ function UpdateUser() {
         }
 
     }
+
     return (
         <div className="container">
             <Header />

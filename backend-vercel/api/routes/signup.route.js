@@ -1,35 +1,37 @@
 import express from "express";
 import { db } from "../config.js";
 import authenticateToken from "../middlewares/authenticateToken.js";
+import formidable from "formidable";
 // use modular import instead of require
 const router = express.Router();
-router.post("/signup",authenticateToken,async (req, res) => {
-    try {
-        const { firstName, lastName, email } = req.body;
-        const user = req.user; // Access `user` data from `req.user`
-        if (!user) {
-            return res.status(400).json({ message: "User data not found. Ensure authentication is complete." });
+router.post("/signup", authenticateToken, async (req, res) => {
+    const form = formidable({});
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            res.status(500).json({ message: "Error during file upload", error: err });
+            return;
         }
-        // Add user data to the Firestore
-        await db.collection("users").add({
+        const firstName = fields.firstName[0];
+        const lastName = fields.lastName[0];
+        const email = fields.email[0];
+        const userId = fields.userId[0];
+        try {
+            await db.collection("users").add({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                uid: user.user_id,
-                createdAt: new Date().toISOString(),
-                isAdmin: false
-        })
+                uid: userId,
+                isAdmin: false,
+                createdAt: new Date(),
+            })
+            res.status(200).json({
+                message: "Sign up successfully"
+            })
+        } catch (error) {
+            res.status(500).json({ message: "Error during sign up", error: error });
+        }
 
-        res.status(200).json({
-            message: `Account ${user.email} created successfully`,
-            user: user
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: "Server Error, try again later",
-            error: error.message || error
-        });
-    }
+    });
 });
 
 export default router;

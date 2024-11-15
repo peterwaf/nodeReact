@@ -15,7 +15,7 @@ function Login() {
         email: "",
         password: ""
     });
-    const [errors, SetErrors] = useState([]);
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
     const { setUpUser } = useContext(userContext);
     const handleChange = (e) => {
@@ -30,7 +30,7 @@ function Login() {
         if (formData.password === "") {
             formErrors.push("Password is required");
         }
-        SetErrors(formErrors);
+        setErrors(formErrors);
         return formErrors;
     }
 
@@ -45,19 +45,22 @@ function Login() {
 
             } catch (error) {
                 if (error.code === "auth/wrong-password") {
-                    SetErrors(prevErrors => [...prevErrors, "Wrong Password"]);
+                    setErrors(prevErrors => [...prevErrors, "Wrong Password"]);
+                }
+                if(error === "auth/network-request-failed"){
+                    setErrors(prevErrors => [...prevErrors, "No network, check your connection"]);
                 }
                 if (error.code === "auth/user-not-found") {
-                    SetErrors(prevErrors => [...prevErrors, "User not found"]);
+                    setErrors(prevErrors => [...prevErrors, "User not found"]);
                 }
                 if (error.code === "auth/invalid-email") {
-                    SetErrors(prevErrors => [...prevErrors, "Invalid Email"]);
+                    setErrors(prevErrors => [...prevErrors, "Invalid Email"]);
                 }
                 if (error.code === "auth/invalid-credential") {
-                    SetErrors(prevErrors => [...prevErrors, "Invalid Credential"]);
+                    setErrors(prevErrors => [...prevErrors, "Invalid Credential"]);
                 }
                 else {
-                    SetErrors(prevErrors => [...prevErrors, "Something went wrong,try again later"]);
+                    setErrors(prevErrors => [...prevErrors, "Something went wrong,try again later"]);
                 }
 
             }

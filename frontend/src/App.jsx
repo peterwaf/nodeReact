@@ -49,7 +49,7 @@ function App() {
   const checkUserRole = () => {
     if (user) {
       user.getIdToken().then((token) => {
-        axios.get(`https://dailychronicles.vercel.app/get-user-role?userId=${user.uid}`, {
+        axios.get(`http://localhost:3000/get-user-role?userId=${user.uid}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

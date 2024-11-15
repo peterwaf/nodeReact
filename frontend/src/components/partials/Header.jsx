@@ -25,6 +25,9 @@ function Header() {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
         <li style={{ display: !isAdmin && "none" }}>
+          {isAdmin && <Link to="/update-user-role" className="admin-link">Update User Role</Link>}
+        </li>
+        <li style={{ display: !isAdmin && "none" }}>
           {isAdmin && <Link to="/add" className="admin-link">Add Blog</Link>}
         </li>
         <li style={{ display: !isAdmin && "none" }}>
