@@ -45,15 +45,15 @@ function App() {
       console.log(error.message);
     }
   }
-
-  useEffect(() => {
-    setUpUser();
-  }, []);
-
+  
   const checkUserRole = () => {
-    // Check if user is an admin
     if (user) {
-      axios.get(`https://dailychronicles.vercel.app/get-user-role?userId=${user.uid}`)
+      user.getIdToken().then((token) => {
+        axios.get(`https://dailychronicles.vercel.app/get-user-role?userId=${user.uid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
         .then((response) => {
           if (response.data.isAdmin) {
             setIsAdmin(true);
@@ -63,9 +63,12 @@ function App() {
           console.log(error.message);
           setIsAdmin(false);
         });
+      }).catch((error) => {
+        console.error("Error fetching token:", error);
+      });
     }
-
-  }
+  };
+  
 
   useEffect(() => {
     checkUserRole();

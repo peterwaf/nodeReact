@@ -9,7 +9,7 @@ import signUp from "./routes/signup.route.js";
 import readmore from "./routes/readmore.route.js";
 import updateUserRole from "./routes/updateuser.route.js";
 import getUserRole from "./routes/getuserrole.route.js";
-import { onRequest } from "firebase-functions/https";
+// import { onRequest } from "firebase-functions/https";
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -35,12 +35,13 @@ app.use("/", updateUserRole);
 app.use("/", getUserRole);
 app.get('/ping', (req, res) => res.send('pong'));
 //export the app to enable cloud functions if deploying to cloud functionsthem
-export const api = onRequest({timeoutSeconds: 540}, app);
+// export const api = onRequest({timeoutSeconds: 540}, app);
 
-// // for local testing use the localhost port
-// app.listen(PORT, () => {
-//     console.log("Server running on port " + PORT);
-// })
+// for local testing use the localhost port
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
+})
+export default app;
 
 //run firebase functions emulator
 

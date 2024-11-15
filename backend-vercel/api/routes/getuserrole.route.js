@@ -1,7 +1,8 @@
 import express from "express";
 import {db} from "../config.js";
+import authenticateToken from "../middlewares/authenticateToken.js";
 const router = express.Router();
-router.get("/get-user-role", async (req, res) => {
+router.get("/get-user-role",authenticateToken, async (req, res) => {
     const userId = req.query.userId;
     try {
        const usersSnapShot = await db.collection("users").get();
